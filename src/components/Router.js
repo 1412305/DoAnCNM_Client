@@ -12,7 +12,6 @@ const Router = () => (
             <Route path='/wallet' component={Wallet}/>
             <Route path='/login' component={Login}/>
             <Route path='/signup' component={SignUp}/>
-            <Route path='/recovery' component={ForgotPassword} />
         </Switch>
     </main>
 )

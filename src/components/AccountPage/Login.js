@@ -29,16 +29,41 @@ const style = {
     }
   };
 
-const Login = () => (
-    <div className="mx-auto text-center" style={style.form}>
+class Login extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            email: '',
+            password: '',
+        };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+    }
+
+    handleSubmit(e) {
+        this.props.onClick
+    }
+
+    render() {
+        
+        return (
+            <div className="mx-auto text-center" style={style.form}>
         <Paper zDepth={2} style={style.paper}>
             <h2 className='w-100 text-left' style={style.h}>Log into your wallet</h2>
            
-            <TextField floatingLabelText="Email" fullWidth={true}/>
+            <TextField name="email" floatingLabelText="Email" fullWidth={true}/>
             <br />
-            <TextField floatingLabelText="Password" type="password" fullWidth={true}/>
+            <TextField name="password" floatingLabelText="Password" type="password" fullWidth={true}/>
             <br />
-            <RaisedButton className="mt-3 mb-1" fullWidth={true} label="Login" primary={true} containerElement={<Link to='/wallet'/>} />
+            <RaisedButton className="mt-3 mb-1" fullWidth={true} label="Login" 
+            primary={true} containerElement={<Link to='/wallet'/>} onClick={this.handleSubmit} />
             
             <div style={style.div}>
                 <a className="float-left" href="/signup" style={style.link} >
@@ -50,8 +75,10 @@ const Login = () => (
                 </a>
             </div>
              
-        </ Paper>
-    </div>
-)
+            </ Paper>
+        </div>
+        );
+    }
+}
 
 export default Login
