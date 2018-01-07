@@ -3,18 +3,17 @@ import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import PropTypes from 'prop-types';
 
-const sessionEmail = window.sessionStorage.getItem('email');
-
-const Nav = ({onClick}) => {
+const Nav = ({onClick, isAuthenticated}) => {
   return (
     <div>
     <AppBar title="BLOCKCHAIN"
-      iconElementRight={(sessionEmail) &&  <FlatButton label="Logout" onClick={onClick} />}/>  
+      iconElementRight={isAuthenticated && <FlatButton label="Logout" onClick={onClick} />}/>  
   </div>);
 }
   
 Nav.propTypes = {
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 }
 
 export default Nav

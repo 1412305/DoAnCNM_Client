@@ -2,6 +2,12 @@ import { connect } from 'react-redux';
 import Nav from '../components/Nav';
 import { accountActions } from '../actions/account';
 
+const mapStateToProps = (state) => {
+    return {
+        isAuthenticated: state.account.isAuthenticated
+    } 
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
             onClick: () => { 
@@ -11,7 +17,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const NavContainer = connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(Nav)
   
