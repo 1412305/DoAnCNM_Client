@@ -4,11 +4,13 @@ import FlatButton from 'material-ui/FlatButton';
 import PropTypes from 'prop-types';
 
 const Nav = ({onClick, isAuthenticated}) => {
+  const nav = isAuthenticated ? <AppBar title="BLOCKCHAIN" iconElementRight={<FlatButton 
+  label="Logout" onClick={onClick} />}/> : <AppBar title="BLOCKCHAIN" />
   return (
     <div>
-    <AppBar title="BLOCKCHAIN"
-      iconElementRight={isAuthenticated && <FlatButton label="Logout" onClick={onClick} />}/>  
-  </div>);
+    {nav}
+    </div>
+  );
 }
   
 Nav.propTypes = {

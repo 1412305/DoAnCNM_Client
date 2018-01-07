@@ -10,29 +10,30 @@ export const accountActions = {
 };
 
 function login(email, password){
-
-    var data = {
-        email: email, 
-        password: password
+    return dispatch => {
+        var data = {
+            email: email, 
+            password: password
+        }
+        
+        axios.post('http://localhost:3000/api/login', data)
+        .then(function (result) {
+            if (result.data.status)
+            {
+                let session = result.data;
+                window.sessionStorage.setItem('token', result.data.token);
+                window.sessionStorage.setItem('email', result.data.email);
+               
+                dispatch(success(session));
+                history.replace({ pathname: '/login' });
+            }
+            else {
+                dispatch(errorActions.warningError(result.data.msg));
+            }
+        })
     }
     
-    axios.post('http://localhost:3000/api/login', data)
-    .then(function (result) {
-        if (result.data.status)
-        {
-            let session = result.data;
-            window.sessionStorage.setItem('token', result.data.token);
-            window.sessionStorage.setItem('email', result.data.email);
-            history.replace({ pathname: '/login' });
-            return {
-                type: accountConstants.LOGIN_SUCCESS,
-                session,
-            }
-        }
-        else {
-            return dispatch => {dispatch(errorActions.warningError(result.data.msg))};
-        }
-    })
+    function success(session) { return { type: accountConstants.LOGIN_SUCCESS, session } }
 }
 
 function logout(email, password){
@@ -44,26 +45,26 @@ function logout(email, password){
 }
 
 function signup(email, password){
-    var data = {
-        email: email, 
-        password: password
+    return dispatch =>{
+        var data = {
+            email: email, 
+            password: password
+        }
+        
+        axios.post('http://localhost:3000/api/users', data)
+        .then(function (result) {
+            if (result.data.email === email)
+            {
+                dispatch(signup_success());
+            }
+            else {
+                let error = result.data.errors.email.message;
+                console.log(error);
+                dispatch(signup_failure(error));
+            }
+        })
     }
-    
-    axios.post('http://localhost:3000/api/users', data)
-    .then(function (result) {
-        console.log(result);
-        if (result.data.status)
-        {
-            return {
-                type: accountConstants.SIGNUP_SUCCESS,
-            }
-        }
-        else {
-            let error =  result.data.msg;
-            return {
-                type: accountConstants.SIGNUP_FAILURE,
-                error
-            }
-        }
-    })
+   
+    function signup_success() { return { type: accountConstants.SIGNUP_SUCCESS };}
+    function signup_failure(error){ return { type: accountConstants.SIGNUP_FAILURE, error };}
 }

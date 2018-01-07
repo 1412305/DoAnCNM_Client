@@ -103,15 +103,14 @@ const style = {
     }
 
     render() {
-        let isError = (this.props.msg === "") ? false : true;
-        let notifyDiv = (this.props.msg === "") ? <div className="alert alert-danger"> {
-            this.props.error}</div> : <div className="alert alert-success"> {this.props.error}</div>;
+        let notifyDiv = (this.props.msg !== "") ? <div className="alert alert-danger"> {
+            this.props.msg}</div> : <div className="alert alert-success">Sign up successfully</div>;
 
         return (
             <div className="mx-auto text-center" style={style.form}>
             <Paper zDepth={2} style={style.paper}>
                 <h2 className='w-100 text-left' style={style.h}>Sign up</h2>
-                {isError && (this.props.msg !== "waiting") && notifyDiv}
+                {this.props.msg !== "waiting" && notifyDiv}
                 <TextField name="email" floatingLabelText="Email" type="email" fullWidth={true} 
                      errorText={this.state.emailError} onChange={this.handleChange} />
                 <br />
