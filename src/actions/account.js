@@ -15,7 +15,7 @@ function login(email, password){
 
         axios.post("http://localhost:4000/api/login", data)
         .then(function (session) {
-            window.sessionStorage.setItem('token', session.token);
+            window.sessionStorage.setItem('token', session.data.token);
             return {
                 type: accountConstants.LOGIN_SUCCESS,
                 session,
