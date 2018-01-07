@@ -1,11 +1,13 @@
-import accountConstans from '../constants/account';
+import {accountConstants} from '../constants/account';
 
 const account = (state = {}, action) => {
     switch (action.type){
         case accountConstants.LOGIN_SUCCESS:
-            return email;
+            return action.session;
         case accountConstants.LOGIN_FAILURE:
-            return error;
+            return action.error;
+        case accountConstants.INPUT_CHANGE:
+            return action.name;
         default:
             return state;
     }

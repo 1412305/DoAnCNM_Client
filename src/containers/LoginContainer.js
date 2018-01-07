@@ -1,19 +1,28 @@
 import { connect } from 'react-redux';
-import Login from '../components/Login';
-import accountActions from '../actions/account';
+import Login from '../components/AccountPage/Login';
+import { accountActions } from '../actions/account';
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        email: (state.email) ? state.email : ''
+    }
+}
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-            onClick: (email, password) => { 
-                e.preventDefault();
-                dispatch(accountActions.login(email, password));
-        }
+            onClick: (email) => { 
+                dispatch(accountActions.login(email));
+            },
+            onChange: (name, value) => {
+                console.log(name + " " + value);
+                dispatch(accountActions.inputChange(name, value));
+            }
     }
 }
 
 const LoginContainer = connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(Login)
   
-  export default LoginContainer
+export default LoginContainer
