@@ -4,6 +4,7 @@ import TextField from 'material-ui/TextField';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import { cyan500 } from 'material-ui/styles/colors.js';
+import history from '../../history';
 
 const style = {
     form: {
@@ -29,7 +30,7 @@ const style = {
     },
     p: {
         fontSize: 14
-    }
+    }, 
   };
 
 class Login extends React.Component{
@@ -47,6 +48,11 @@ class Login extends React.Component{
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     
+    componentWillMount(){
+        if (this.props.isAuthenticated)
+            history.replace({ pathname: '/wallet' })
+    }
+
     handleChange(e) {
         const { name, value } = e.target;
         this.setState({ [name]: value });
@@ -71,17 +77,27 @@ class Login extends React.Component{
         }
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
-        this.props.onClick(this.state.email, this.state.password);
+    handleSubmit() {
+        if (this.state.email === ""){
+            this.setState({ emailError: 'Email is required.' });
+        } 
+        if (this.state.password === ""){
+            this.setState({ passError: 'Password is required.' });
+        }
+        if (this.state.emailError === '' && this.state.passError === '')
+        {
+            this.props.onClick(this.state.email, this.state.password);
+        }
+           
     }
 
     render() {
+        let isError = (this.props.error === "") ? false : true;
         return (
             <div className="mx-auto text-center" style={style.form}>
             <Paper zDepth={2} style={style.paper}>
                 <h2 className='w-100 text-left' style={style.h}>Log into your wallet</h2>
-               
+                {isError && <div className="alert alert-danger"> {this.props.error}</div>}
                 <TextField name="email" floatingLabelText="Email" type="email" fullWidth={true} 
                      errorText={this.state.emailError} onChange={this.handleChange} />
                 <br />
@@ -111,6 +127,8 @@ class Login extends React.Component{
 
 Login.propTypes = {
     onClick: PropTypes.func.isRequired,
+    error: PropTypes.string.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired
   }
 
 export default Login
