@@ -2,21 +2,19 @@ import { connect } from 'react-redux';
 import Login from '../components/AccountPage/Login';
 import { accountActions } from '../actions/account';
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
+    console.log(state.login_error);
     return {
-        email: (state.email) ? state.email : ''
-    }
+        error: state.login_error,
+        session: state.account
+    } 
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
     return {
-            onClick: (email) => { 
-                dispatch(accountActions.login(email));
+            onClick: (email, password) => { 
+                dispatch(accountActions.login(email, password));
             },
-            onChange: (name, value) => {
-                console.log(name + " " + value);
-                dispatch(accountActions.inputChange(name, value));
-            }
     }
 }
 

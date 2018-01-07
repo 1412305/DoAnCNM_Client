@@ -1,47 +1,29 @@
 import { accountConstants } from '../constants/index';
+import { errorActions } from './error'
+import axios from 'axios';
 
 export const accountActions = {
-    login,
-    inputChange,
+    login
 };
 
-function inputChange(name, value){
-    return {
-        type: accountConstants.INPUT_CHANGE,
-        name: value,
-    }
-}
-
 function login(email, password){
-  
-    // var data = {
-    //     email: email, 
-    //     password: password
-    //   }
-
-      let error = "Fail";
-      
-      if (email === "luong"){
-        let session = email;
-        return {
-            type: accountConstants.LOGIN_SUCCESS,
-            session,
+    return dispatch => {
+        var data = {
+            email: email, 
+            password: password
         }
+        
+        axios.post('https://localhost:3000/api/login', data)
+        .then(function (session) {
+            window.sessionStorage.setItem('token', session.token);
+            return {
+                type: accountConstants.LOGIN_SUCCESS,
+                session,
+            }
+        })
+        .catch(function (error) {
+            dispatch(errorActions.warningError(error));
+        });
     }
-    else{
-        return {
-            type: accountConstants.LOGIN_FAILURE,
-            error,
-        }
-    }
-    // axios.post('https://localhost:3000/login', data)
-    // .then(function (response) {
-       
-    // })
-    // .catch(function (error) {
-    //     return {
-    //         type: accountConstants.FAILURE,
-    //         error
-    //     }
-    // });
+    
 }
