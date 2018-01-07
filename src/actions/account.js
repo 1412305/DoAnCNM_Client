@@ -9,11 +9,11 @@ export const accountActions = {
 function login(email, password){
     return dispatch => {
         var data = {
-            email: email, 
+            email: email,
             password: password
         }
-        
-        axios.post('https://localhost:3000/api/login', data)
+
+        axios.post("http://localhost:4000/api/login", data)
         .then(function (session) {
             window.sessionStorage.setItem('token', session.token);
             return {
@@ -25,5 +25,5 @@ function login(email, password){
             dispatch(errorActions.warningError(error));
         });
     }
-    
+
 }
