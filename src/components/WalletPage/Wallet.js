@@ -3,6 +3,7 @@ import DashboardContainer from '../../containers/DashboardContainer';
 import PropTypes from 'prop-types';
 import history from '../../history';
 
+
 class Wallet extends React.Component{
     componentWillMount(){
         if (!this.props.isAuthenticated)
