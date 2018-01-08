@@ -1,20 +1,21 @@
 import {accountConstants} from '../constants/account';
 
-const sessionToken = window.sessionStorage.getItem('token');
-const initialState = sessionToken ? {isAuthenticated: true} : {isAuthenticated: false};
+const sessionToken = JSON.parse(window.sessionStorage.getItem('token'));
+const initialState = sessionToken ? {isAuthenticated: true, session: sessionToken} : {isAuthenticated: false};
 
 const account = (state = initialState, action) => {
     switch (action.type){
         case accountConstants.LOGIN_SUCCESS:
-            return {
+            return Object.assign({}, state, {
                 isAuthenticated: true,
-            }
+                session: action.session
+            })
         case accountConstants.LOGOUT:
-            return {
-                isAuthenticated: false,
-            }
-        default:
-            return state;
+            return Object.assign({}, state, {
+                isAuthenticated: false
+            })
+        default: return state;
+
     }
 }
 

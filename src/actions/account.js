@@ -18,14 +18,13 @@ function login(email, password){
         
         axios.post('http://localhost:3000/api/login', data)
         .then(function (result) {
-            if (result.data.status)
+            if (result.data.email === email)
             {
                 let session = result.data;
-                window.sessionStorage.setItem('token', result.data.token);
-                window.sessionStorage.setItem('email', result.data.email);
-               
+                window.sessionStorage.setItem('token', JSON.stringify(result.data));
                 dispatch(success(session));
-                history.replace({ pathname: '/login' });
+                history.replace({ pathname: '/wallet' });
+                
             }
             else {
                 dispatch(errorActions.warningError(result.data.msg));
@@ -59,7 +58,6 @@ function signup(email, password){
             }
             else {
                 let error = result.data.errors.email.message;
-                console.log(error);
                 dispatch(signup_failure(error));
             }
         })

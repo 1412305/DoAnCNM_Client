@@ -1,6 +1,7 @@
 import React from 'react';
-import {Card, CardActions, CardHeader} from 'material-ui/Card';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import PropTypes from 'prop-types';
 
 const style = {
     card: {
@@ -11,27 +12,37 @@ const style = {
     }
   };
 
-const Dashboard = () => (<div>
-  <div>
-    <div className="text-center">
-      <h3>1 KCoin = 1$</h3>
-      <hr/>
+const Dashboard = ({session}) => {
+  console.log(session);
+  return (<div>
+    <div>
+      <div className="text-center">
+        <h3>1 KCoin = 1$</h3>
+        <hr/>
+      </div>
+  
+      <Card style={style.card}>
+        
+        <CardHeader
+          title = {"Available Balance: " + session.availableBalance}
+          subtitle= {"Actual Balance: " + session.actualBalance} 
+          actAsExpander={true}
+        >
+        </CardHeader>
+        <CardText>
+        Your address: sdlfkansfn
+      </CardText>
+        <CardActions>
+          <RaisedButton label="Send" primary={true} style={style.button}  href="/send"/>
+          <RaisedButton label="Request" secondary={true} style={style.button} href="/request"/>
+        </CardActions>
+      </Card>
     </div>
+  </div>)
+}
 
-    <Card style={style.card}>
-      
-      <CardHeader
-        title = {'Total Balance: 10000'.concat(' KCoin')}
-        subtitle="Your address: adasdasdasdasdadasdasd"
-        actAsExpander={true}
-      >
-      </CardHeader>
-      <CardActions>
-        <RaisedButton label="Exchange" primary={true} style={style.button}  href="/exchange"/>
-        <RaisedButton label="Request" secondary={true} style={style.button} href="/request"/>
-      </CardActions>
-    </Card>
-  </div>
-</div>)
+Dashboard.propTypes = {
+  session: PropTypes.object.isRequired
+}
 
 export default Dashboard
