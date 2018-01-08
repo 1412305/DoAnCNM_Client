@@ -1,9 +1,9 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import {Link} from 'react-router-dom';
 import Paper from 'material-ui/Paper';
 import { cyan500 } from 'material-ui/styles/colors.js';
+import PropTypes from 'prop-types';
 
 const style = {
     form: {
@@ -31,29 +31,120 @@ const style = {
     }
   };
 
-const SignUp = () => (
-    <div className="mx-auto text-center" style={style.form}>
-        <Paper zDepth={2} style={style.paper}>
-            <h2 className='w-100 text-left' style={style.h}>Sign up</h2>
-           
-            <TextField floatingLabelText="Email" fullWidth={true}/>
-            <br />
-            <TextField floatingLabelText="Password" type="password" fullWidth={true}/>
-            <br />
-            <TextField floatingLabelText="Password Confirm" type="password" fullWidth={true}/>
-            <br />
-            <RaisedButton className="mt-3 mb-1" fullWidth={true} label="Sign up" primary={true} containerElement={<Link to='/login'/>} />
+  class SignUp extends React.Component{
+    constructor(props){
+        super(props);
+        
+        this.state = {
+            email: '',
+            password: '',
+            passwordConfirm: '',
+            emailError: '',
+            passError: '',
+            passConfirmError: '',
+        };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    
+
+    handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+        switch (name){
+            case 'email': {
+                if (value === ""){
+                    this.setState({ emailError: 'Email is required.' });
+                }
+                else if (!value.includes('@')){
+                    this.setState({ emailError: 'Email is invalid.' });
+                }
+                else this.setState({ emailError: '' });
+                break;
+            }
+            case 'password': {
+                if (value === ""){
+                    this.setState({ passError: 'Password is required.' });
+                } 
+                else this.setState({ passError: '' });
+                break;
+            }
+            default: {
+                if (value === ""){
+                    this.setState({ passConfirmError: 'Confirm Password is required.' });
+                } 
+                else this.setState({ passConfirmError: '' });
+            }
             
-            <div style={style.div}>
-                <p className="float-left m-0" style={style.p}> Already have a wallet?&nbsp;    
-                    <a href="/login" style={style.link} >
-                     Sign in now
-                    </a>
-                </p>
+        }
+    }
+
+    handleSubmit() {
+        if (this.state.email === ""){
+            this.setState({ emailError: 'Email is required.' });
+        } 
+        if (this.state.password === ""){
+            this.setState({ passError: 'Password is required.' });
+        }
+        if (this.state.passwordConfirm === ""){
+            this.setState({ passConfirmError: 'Password is required.' });
+        }
+      
+        if (this.state.emailError === '' && this.state.passError === '' && this.state.passConfirmError === '')
+        {
+            if (this.state.passwordConfirm !== this.state.password)
+            {
+                this.setState({ passConfirmError: 'Password Confirm is not correct.' });
+            }
+            else this.props.onClick(this.state.email, this.state.password);
+        }
+           
+    }
+
+    render() {
+        let notifyDiv = (this.props.msg !== "") ? <div className="alert alert-danger"> {
+            this.props.msg}</div> : <div className="alert alert-success">Sign up successfully</div>;
+
+        return (
+            <div className="mx-auto text-center" style={style.form}>
+            <Paper zDepth={2} style={style.paper}>
+                <h2 className='w-100 text-left' style={style.h}>Sign up</h2>
+                {this.props.msg !== "waiting" && notifyDiv}
+                <TextField name="email" floatingLabelText="Email" type="email" fullWidth={true} 
+                     errorText={this.state.emailError} onChange={this.handleChange} />
+                <br />
+                <TextField name="password" floatingLabelText="Password" type="password" fullWidth={true}
+                     errorText={this.state.passError} onChange={this.handleChange}
+                />
+                <br />
+                <TextField name="passwordConfirm" floatingLabelText="Confirm Password" type="password" fullWidth={true}
+                     errorText={this.state.passConfirmError} onChange={this.handleChange}
+                />
+                <br />
+
+                <RaisedButton className="mt-3 mb-1" fullWidth={true} label="Sign up" 
+                primary={true} onClick={this.handleSubmit} />
+                
+                <div style={style.div}>
+                    <p className="float-left m-0" style={style.p}> Already have a wallet?&nbsp;    
+                        <a href="/login" style={style.link} >
+                        Sign in now
+                        </a>
+                    </p>
+                </div>
+                
+                </ Paper>
             </div>
-             
-        </ Paper>
-    </div>
-)
+           
+        );
+    }
+    
+}
+
+SignUp.propTypes = {
+    onClick: PropTypes.func.isRequired,
+    msg: PropTypes.string.isRequired,
+  }
 
 export default SignUp

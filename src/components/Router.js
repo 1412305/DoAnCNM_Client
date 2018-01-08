@@ -1,18 +1,16 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Wallet from './WalletPage/Wallet';
+import WalletContainer from '../containers/WalletContainer';
 import LoginContainer from '../containers/LoginContainer';
-import SignUp from './AccountPage/SignUp';
-import Exchange from './TransPage/Exchange';
+import SignUpContainer from '../containers/SignUpContainer';
 
 const Router = () => (
     <main>
         <Switch>
             <Route exact path='/' component={LoginContainer}/>
-            <Route path='/wallet' component={Wallet}/>
+            <Route path='/wallet' component={WalletContainer}/>
             <Route path='/login' component={LoginContainer}/>
-            <Route path='/signup' component={SignUp}/>
-            <Route path='/exchange' component={Exchange}/>
+            <Route path='/signup' component={SignUpContainer}/>
         </Switch>
     </main>
 )

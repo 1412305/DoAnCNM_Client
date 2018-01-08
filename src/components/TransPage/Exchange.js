@@ -1,7 +1,6 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import {cyan500} from 'material-ui/styles/colors.js';
 

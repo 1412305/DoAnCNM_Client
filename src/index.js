@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { BrowserRouter } from 'react-router-dom'
+import { Router } from 'react-router-dom'
 import registerServiceWorker from './registerServiceWorker';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import BLOCKCHAIN from './reducers/index';
 import thunk from 'redux-thunk';
+import history from './history';
 
 let store = createStore(
     BLOCKCHAIN,
@@ -17,10 +18,10 @@ let store = createStore(
 
 ReactDOM.render(
    <MuiThemeProvider>
-       <BrowserRouter>
+       <Router history={history}>
         <Provider store={store}>
                 <App />
             </Provider>
-        </BrowserRouter>
+        </Router>
    </MuiThemeProvider>, document.getElementById('root'));
 registerServiceWorker();

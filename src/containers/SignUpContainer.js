@@ -1,25 +1,24 @@
 import { connect } from 'react-redux';
-import Login from '../components/AccountPage/Login';
+import SignUp from '../components/AccountPage/SignUp';
 import { accountActions } from '../actions/account';
 
 const mapStateToProps = (state) => {
     return {
-        error: state.login_error,
-        isAuthenticated: state.account.isAuthenticated
+        msg: state.signup,
     } 
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         onClick: (email, password) => { 
-            dispatch(accountActions.login(email, password));
+            dispatch(accountActions.signup(email, password));
         }
     }
 }
 
-const LoginContainer = connect(
+const SignUpContainer = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Login)
+)(SignUp)
   
-export default LoginContainer
+export default SignUpContainer
