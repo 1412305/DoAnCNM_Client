@@ -46,12 +46,14 @@ const tableData = [
 
 class Admin extends React.Component {
   componentWillMount() {
-    if (!this.props.isAuthenticated)
+    let session = this.props.session;
+    if (!this.props.isAuthenticated || session.authority !== 'admin')
       history.push('/login');
     }
 
   render() {
-    if (!this.props.isAuthenticated) {
+    let session = this.props.session;
+    if (!this.props.isAuthenticated || session.authority !== 'admin') {
       return (<div></div>);
     }
     return (<div>
@@ -78,7 +80,7 @@ class Admin extends React.Component {
                 top: 18,
                 right: -10
               }}>
-              ACTUAL BALANCES:
+              ACTUAL BALANCES: + {}
             </Badge>
           </TableHeaderColumn>
         </TableRow>
@@ -179,6 +181,7 @@ class Admin extends React.Component {
 }
 
 Admin.propTypes = {
+  session: PropTypes.object.isRequired,
   isAuthenticated: PropTypes.bool.isRequired
 }
 

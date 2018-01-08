@@ -12,26 +12,32 @@ export const accountActions = {
 function login(email, password){
     return dispatch => {
         var data = {
-            email: email, 
+            email: email,
             password: password
         }
-        
+
         axios.post('http://localhost:3000/api/login', data)
         .then(function (result) {
-            if (result.data.email === email)
+            if(result.data.authority === 'admin' && result.data.email === email) {
+              let session = result.data;
+              window.sessionStorage.setItem('token', JSON.stringify(result.data));
+              dispatch(success(session));
+              history.replace({ pathname: '/admin' });
+            }
+            else if (result.data.email === email)
             {
                 let session = result.data;
                 window.sessionStorage.setItem('token', JSON.stringify(result.data));
                 dispatch(success(session));
                 history.replace({ pathname: '/wallet' });
-                
+
             }
             else {
                 dispatch(errorActions.warningError(result.data.msg));
             }
         })
     }
-    
+
     function success(session) { return { type: accountConstants.LOGIN_SUCCESS, session } }
 }
 
@@ -46,10 +52,10 @@ function logout(email, password){
 function signup(email, password){
     return dispatch =>{
         var data = {
-            email: email, 
+            email: email,
             password: password
         }
-        
+
         axios.post('http://localhost:3000/api/users', data)
         .then(function (result) {
             if (result.data.email === email)
@@ -62,7 +68,7 @@ function signup(email, password){
             }
         })
     }
-   
+
     function signup_success() { return { type: accountConstants.SIGNUP_SUCCESS };}
     function signup_failure(error){ return { type: accountConstants.SIGNUP_FAILURE, error };}
 }

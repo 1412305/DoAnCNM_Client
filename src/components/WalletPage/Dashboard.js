@@ -39,7 +39,7 @@ class Dashboard extends React.Component{
   handleRequestDialogClose(){
     this.setState({openRequestDialog: false});
   }
-  
+
 
   render (){
     let session = this.props.session;
@@ -51,15 +51,15 @@ class Dashboard extends React.Component{
         {this.state.openRequestDialog && <RequestDialog open={this.state.openRequestDialog} handleClose={() => this.handleRequestDialogClose()} />}
         {this.state.openSendDialog && <SendDialog open={this.state.openSendDialog} handleClose={() => this.handleSendDialogClose()} />}
         <Card style={style.card}>
-          
+
           <CardHeader
             title = {"Available Balance: " + session.availableBalance}
-            subtitle= {"Actual Balance: " + session.actualBalance} 
+            subtitle= {"Actual Balance: " + session.actualBalance}
             actAsExpander={true}
           >
           </CardHeader>
           <CardText>
-          Your address: sdlfkansfn
+          Your address: {session.address}
         </CardText>
           <CardActions>
             <RaisedButton label="Send" primary={true} onClick={() => this.handleSend()} style={style.button} />
