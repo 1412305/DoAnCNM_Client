@@ -1,15 +1,21 @@
 import {connect} from 'react-redux';
 import Admin from '../components/AdminPage/Admin';
+import {adminActions} from '../actions/admin';
 
 const mapStateToProps = (state) => {
   return {
-    session: (state.account.session)
+    data: (state.account.session)
       ? state.account.session
       : null,
-    isAuthenticated: state.account.isAuthenticated
+    isAuthenticated: state.account.isAuthenticated,
+    users: state.admin
   }
 }
 
-const AdminContainer = connect(mapStateToProps, null)(Admin)
+const mapDispatchToProps = (dispatch) => (
+  {loadUsers: () => dispatch(adminActions.getUsers())}
+)
+
+const AdminContainer = connect(mapStateToProps, mapDispatchToProps)(Admin)
 
 export default AdminContainer

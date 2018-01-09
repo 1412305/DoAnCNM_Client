@@ -31,7 +31,7 @@ class TransacionList extends Component {
             adjustForCheckbox={false}
           >
             <TableRow>
-              <TableHeaderColumn colSpan="11" tooltip="Transaction List" 
+              <TableHeaderColumn colSpan="11" tooltip="Transaction List"
               style={{textAlign: 'center', fontSize: 20}}>
                 Transacion List
               </TableHeaderColumn>
@@ -51,14 +51,14 @@ class TransacionList extends Component {
             {tableData.map( (row, index) => (
               <TableRow key={index}>
                 <TableRowColumn colSpan="4">{row.hash}</TableRowColumn>
-                <TableRowColumn colSpan="3"children={row.inputs.map( (e, i) => (<p>{e}</p>))}></TableRowColumn>
-                <TableRowColumn colSpan="3" children={row.outputs.map( (e, i) => (<p>{e}</p>))}></TableRowColumn>
-                <TableRowColumn colSpan="1" children={row.amount.map( (e, i) => (<p>{e}</p>))}></TableRowColumn>
+                <TableRowColumn colSpan="3"children={row.inputs.map( (e, i) => (<p key={i}>{e}</p>))}></TableRowColumn>
+                <TableRowColumn colSpan="3" children={row.outputs.map( (e, i) => (<p key={i}>{e}</p>))}></TableRowColumn>
+                <TableRowColumn colSpan="1" children={row.amount.map( (e, i) => (<p key={i}>{e}</p>))}></TableRowColumn>
               </TableRow>
               ))}
           </TableBody>
         </Table>
-    )   
+    )
 }
 }
 

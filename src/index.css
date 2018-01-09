@@ -14,6 +14,10 @@ body {
   margin: 0 auto;
 }
 
+.my-auto{
+  vertical-align: middle;
+}
+
 .text-center{
   text-align: center;
 }

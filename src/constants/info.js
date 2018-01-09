@@ -1,2 +1,0 @@
-export const REQUEST_INFOS = 'REQUEST_INFOS'
-export const RECEIVE_INFOS = 'RECEIVE_INFOS'

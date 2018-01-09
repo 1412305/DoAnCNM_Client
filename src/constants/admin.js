@@ -1,0 +1,4 @@
+export const adminConstants = {
+    REQUEST_USERINFO: 'REQUEST_USERINFO',
+    RECEIVE_USERINFO: 'RECEIVE_USERINFO'
+}

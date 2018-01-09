@@ -46,42 +46,47 @@ const tableData = [
 
 class Admin extends React.Component {
   componentWillMount() {
-    let session = this.props.session;
+    let session = this.props.data;
     if (!this.props.isAuthenticated || session.authority !== 'admin')
       history.push('/login');
+    else {
+      this.props.loadUsers();
     }
-
+  }
   render() {
-    let session = this.props.session;
+    let session = this.props.data;
+    let users = this.props.users;
     if (!this.props.isAuthenticated || session.authority !== 'admin') {
       return (<div></div>);
     }
+
+    var availableBalance = 0;
+    var actualBalance = 0;
+    for (var i = 0; i < users.length; i++) {
+      availableBalance += users[i].availableBalance;
+      actualBalance += users[i].actualBalance;
+    }
+
     return (<div>
       <Card>
-        <TableRow>
-          <TableHeaderColumn tooltip="Number of users" colSpan="4">
-            <Badge badgeContent={4} primary={true} badgeStyle={{
-                top: 18,
-                right: -10
-              }}>
-              USERS:
-            </Badge>
+        <TableRow className="my-auto">
+          <TableHeaderColumn tooltip="Number of users" colSpan="4" style={{
+              textAlign: 'left',
+              fontSize: 20
+            }}>
+              USERS: {users.length} 
           </TableHeaderColumn>
-          <TableHeaderColumn tooltip="Available Balance" colSpan="3">
-            <Badge badgeContent={10} secondary={true} badgeStyle={{
-                top: 18,
-                right: -10
-              }}>
-              AVAILABLE BALANCES:
-            </Badge>
+          <TableHeaderColumn tooltip="Available Balance" colSpan="3" style={{
+              textAlign: 'left',
+              fontSize: 20
+            }}>
+              AVAILABLE BALANCES: {availableBalance} KCoin
           </TableHeaderColumn>
-          <TableHeaderColumn tooltip="Actual Balance" colSpan="3">
-            <Badge badgeContent={10} secondary={true} badgeStyle={{
-                top: 18,
-                right: -10
-              }}>
-              ACTUAL BALANCES: + {}
-            </Badge>
+          <TableHeaderColumn tooltip="Actual Balance" colSpan="3" style={{
+              textAlign: 'left',
+              fontSize: 20
+            }}>
+              ACTUAL BALANCES: {actualBalance} KCoin
           </TableHeaderColumn>
         </TableRow>
       </Card>
@@ -95,7 +100,7 @@ class Admin extends React.Component {
                       textAlign: 'left',
                       fontSize: 20
                     }}>
-                    Transacion List
+                    Users List
                   </TableHeaderColumn>
                 </TableRow>
                 <TableRow>
@@ -106,7 +111,7 @@ class Admin extends React.Component {
               </TableHeader>
               <TableBody displayRowCheckbox={false} showRowHover={true} stripedRows={true}>
                 {
-                  accData.map((row, index) => (<TableRow key={index}>
+                  this.props.users.map((row, index) => (<TableRow key={index}>
                     <TableRowColumn colSpan="4">{row.email}</TableRowColumn>
                     <TableRowColumn colSpan="3" children={row.availableBalance + ' KCoin'}></TableRowColumn>
                     <TableRowColumn colSpan="3" children={row.actualBalance + ' KCoin'}></TableRowColumn>
@@ -139,9 +144,9 @@ class Admin extends React.Component {
                 {
                   tableData.map((row, index) => (<TableRow key={index}>
                     <TableRowColumn colSpan="4">{row.hash}</TableRowColumn>
-                    <TableRowColumn colSpan="3" children={row.inputs.map((e, i) => (<p>{e}</p>))}></TableRowColumn>
-                    <TableRowColumn colSpan="3" children={row.outputs.map((e, i) => (<p>{e}</p>))}></TableRowColumn>
-                    <TableRowColumn colSpan="1" children={row.amount.map((e, i) => (<p>{e}</p>))}></TableRowColumn>
+                    <TableRowColumn colSpan="3" children={row.inputs.map((e, i) => (<p key={i}>{e}</p>))}></TableRowColumn>
+                    <TableRowColumn colSpan="3" children={row.outputs.map((e, i) => (<p key={i}>{e}</p>))}></TableRowColumn>
+                    <TableRowColumn colSpan="1" children={row.amount.map((e, i) => (<p key={i}>{e}</p>))}></TableRowColumn>
                   </TableRow>))
                 }
               </TableBody>
@@ -153,7 +158,10 @@ class Admin extends React.Component {
             <Table height="300" fixedHeader={true} selectable={false}>
               <TableHeader displaySelectAll={false} enableSelectAll={false} adjustForCheckbox={false}>
                 <TableRow>
-                  <TableHeaderColumn colSpan="10" tooltip="Transaction List" style={{ textAlign: 'left', fontSize: 20}}>
+                  <TableHeaderColumn colSpan="10" tooltip="Transaction List" style={{
+                      textAlign: 'left',
+                      fontSize: 20
+                    }}>
                     Transacion List
                   </TableHeaderColumn>
                 </TableRow>
@@ -181,8 +189,10 @@ class Admin extends React.Component {
 }
 
 Admin.propTypes = {
-  session: PropTypes.object.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+  data: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  users: PropTypes.array.isRequired,
+  loadUsers: PropTypes.func.isRequired
 }
 
 export default Admin
