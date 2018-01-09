@@ -23,6 +23,7 @@ class Dashboard extends React.Component{
     openRequestDialog: false,
     openSendDialog: false
   };
+  
 
   handleSend(){
     this.setState({openSendDialog: true});
