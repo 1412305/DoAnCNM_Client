@@ -3,7 +3,7 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import PropTypes from 'prop-types';
 import RequestDialog from './RequestDialog';
-import SendDialog from './SendDialog';
+import SendDialogContainer from '../../containers/SendDialogContainer';
 import TransactionList from './TransactionList';
 
 const style = {
@@ -50,7 +50,7 @@ class Dashboard extends React.Component{
           <hr/>
         </div>
         {this.state.openRequestDialog && <RequestDialog open={this.state.openRequestDialog} handleClose={() => this.handleRequestDialogClose()} />}
-        {this.state.openSendDialog && <SendDialog open={this.state.openSendDialog} handleClose={() => this.handleSendDialogClose()} />}
+        {this.state.openSendDialog && <SendDialogContainer open={this.state.openSendDialog} handleClose={() => this.handleSendDialogClose()} />}
         <Card style={style.card}>
 
           <CardHeader
