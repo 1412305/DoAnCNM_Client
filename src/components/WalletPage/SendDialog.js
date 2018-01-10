@@ -19,16 +19,17 @@ class SendDialog extends React.Component {
   handleChange(e) {
     const {name, value} = e.target;
     this.setState({[name]: value});
-    let re = /[0-9a-f]{64}/g;
+    let re = new RegExp(/[0-9a-f]{64}/g);
     switch (name) {
       case 'value':
         {
-          if (this.state.value === "") {
+          if (value === ''){
             this.setState({valueError: 'Value is required.'});
-          } else if (value <= 0) {
+          }
+          else if (value <= 0) {
             this.setState({valueError: 'Please input more than 0 kcoin.'});
           }
-          else if (value <= this.props.actualBalance)
+          else if (parseInt(value) > parseInt(this.props.actualBalance))
           {
             this.setState({valueError: 'You dont have enough Kcoin.'});
           }
@@ -37,10 +38,10 @@ class SendDialog extends React.Component {
         }
       default:
         {
-          if (this.state.address === "") {
+          if (value === ''){
             this.setState({addressError: 'Address is required.'});
           }
-          else if (!this.state.address.test(re)){
+          else if (!re.test(value)){
             this.setState({addressError: 'Please input a valid address.'});
           }
           else
@@ -59,7 +60,7 @@ class SendDialog extends React.Component {
     }
 
     if (this.state.valueError === '' && this.state.addressError === '') {
-      //this.props.onClick(this.state.value, this.state.address);
+      this.props.sendTransaction(this.state.value, this.state.address);
       this.props.handleClose();
     }
 
@@ -89,10 +90,10 @@ class SendDialog extends React.Component {
             onRequestClose={this.props.handleClose}
           >
             <TextField name="address" floatingLabelText="To" type="text" fullWidth={true} 
-                    onChange={() => this.handleChange() } />
+                    errorText={this.state.addressError} onChange={(e) => this.handleChange(e) } />
                 <br />
-            <TextField name="amount" floatingLabelText="Enter Amount" type="number" fullWidth={true}
-            onChange={() => this.handleChange() }/>
+            <TextField name="value" floatingLabelText="Enter Amount" type="number" fullWidth={true}
+            errorText={this.state.valueError} onChange={(e) => this.handleChange(e) }/>
                 <br />
           </Dialog>
         </div>

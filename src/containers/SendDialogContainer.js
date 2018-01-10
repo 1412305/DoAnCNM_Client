@@ -10,8 +10,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-            sendTransaction: () => { 
-                dispatch(transactionActions.sendTransaction());
+            sendTransaction: (value, address) => { 
+                dispatch(transactionActions.sendTransaction(value, address));
             },
     }
 }
